@@ -61,6 +61,7 @@ public class SearchFlightsTest extends BaseTest {
   @Test(description = "SearchFlights", dataProvider = "searchFlights")
   public void searchFlight(FlightSearchBuilder flightSearchBuilder) {
     helperUtil.navigatePage(baseUrl);
+    landingPage.validateLandingPageisDisplayed();
     landingPage.enterDepartureDate();
     landingPage.enterSourceLocation(flightSearchBuilder.getFlightDetails().getYourLocation());
     landingPage.enterDestinationLocation(flightSearchBuilder.getFlightDetails().getDestination());

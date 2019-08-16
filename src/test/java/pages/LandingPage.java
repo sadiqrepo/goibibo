@@ -48,6 +48,11 @@ public class LandingPage extends BasePage {
     explicitTimeOut = waitUtil.getExplicitTimeout();
   }
 
+
+  public void validateLandingPageisDisplayed(){
+    waitUtil.isElementVisible(source,explicitTimeOut);
+  }
+
   public void enterDepartureDate() {
     try {
       departure.click();
