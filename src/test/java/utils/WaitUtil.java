@@ -48,50 +48,46 @@ public class WaitUtil {
     return false;
   }
 
-  public WebElement fluentWait(final By locator,final long timeout, final long polltime) {
-    Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+  public WebElement fluentWait(final By locator, final long timeout, final long polltime) {
+    Wait<WebDriver> wait =
+        new FluentWait<WebDriver>(driver)
             .withTimeout(timeout, TimeUnit.SECONDS)
             .pollingEvery(polltime, TimeUnit.MILLISECONDS)
             .ignoring(NoSuchElementException.class);
 
-    WebElement element = wait.until(new Function<WebDriver, WebElement>() {
-      public WebElement apply(WebDriver driver) {
-        return driver.findElement(locator);
-      }
-    });
+    WebElement element =
+        wait.until(
+            new Function<WebDriver, WebElement>() {
+              public WebElement apply(WebDriver driver) {
+                return driver.findElement(locator);
+              }
+            });
 
     return element;
   }
 
-
   public static void sleep() {
-    try
-    {
+    try {
       Thread.sleep(2000);
-    } catch (InterruptedException ignored)
-    {
+    } catch (InterruptedException ignored) {
       LogUtil.info("[INFO] Exception seen while using Thread.sleep()");
       LogUtil.info(String.valueOf(ignored));
     }
   }
 
   //Is alert present
-  public Alert isAlertPresent(final long timeout){
+  public Alert isAlertPresent(final long timeout) {
     Alert element = null;
 
-    try
-    {
+    try {
       WebDriverWait wait = new WebDriverWait(driver, timeout);
       element = wait.until(ExpectedConditions.alertIsPresent());
-    }
-    catch(ElementNotVisibleException e)
-    {
+    } catch (ElementNotVisibleException e) {
       LogUtil.error("\n[Error] Alert is not present. Here's the exception's stack trace");
       LogUtil.error(String.valueOf(e));
     }
     return element;
   }
-
 
   public static void setSleepTimeOut(final long sleepWait) {
     try {
@@ -101,8 +97,6 @@ public class WaitUtil {
     }
   }
 
-
-
   public static void sleep(Integer timeInMillis) {
     try {
       Thread.sleep(timeInMillis);
@@ -110,14 +104,11 @@ public class WaitUtil {
     }
   }
 
-
-  public void setImplicitTimeOut(final long implicitWait){
-    try{
-      //System.out.println(implicitWait);
+  public void setImplicitTimeOut(final long implicitWait) {
+    try {
       driver.manage().timeouts().implicitlyWait(implicitWait, TimeUnit.SECONDS);
-    } catch(NullPointerException e){
-      //e.printStackTrace();
-
+    } catch (NullPointerException e) {
+      e.printStackTrace();
     }
   }
 }

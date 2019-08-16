@@ -10,7 +10,7 @@
         <listener class-name="org.uncommons.reportng.HTMLReporter"/>
         <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
         <listener class-name="utils.LogUtil"/>
-        <listener class-name="utils.ScreenshotUtil" />
+        <listener class-name="utils.ScreenshotUtil"/>
 
 
     </listeners>

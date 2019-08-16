@@ -18,7 +18,7 @@ public class ConfigReader {
           new FileInputStream(new File("./src/test/resources/properties/config.properties")));
       properties.load(
           new FileInputStream(new File("./src/test/resources/properties/testdata.properties")));
-    } catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
