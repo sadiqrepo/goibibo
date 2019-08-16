@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Chrome_LandingPage"
+           tests="1"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="10.029">
+  <properties />
+  
+  
+            <testcase name="searchFlight" time="10.029" classname="scenario.SearchFlightsTest" />
+      
+</testsuite>

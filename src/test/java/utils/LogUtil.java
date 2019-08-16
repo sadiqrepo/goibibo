@@ -3,150 +3,140 @@ package utils;
 import org.testng.*;
 import org.apache.log4j.Logger;
 
-
-
-/**
- * Created by sadiq on 30/07/19.
- */
+/** Created by sadiq on 30/07/19. */
 public class LogUtil extends TestListenerAdapter implements ITestListener {
 
-    //Initialize Log4j logs
-    private static Logger log = Logger.getLogger(ConfigReader.get("logger.file"));
+  //Initialize Log4j logs
+  private static Logger log = Logger.getLogger(ConfigReader.get("logger.file"));
 
+  // Need to create these methods, so that they can be called
 
+  public static void info(String message) {
+    log.info(message);
+  }
 
+  public static void warn(String message) {
+    log.warn(message);
+  }
 
-    // Need to create these methods, so that they can be called
+  public static void error(String message) {
+    log.error(message);
+  }
 
-    public static void info(String message) {
-        log.info(message);
-    }
+  public static void fatal(String message) {
+    log.fatal(message);
+  }
 
-    public static void warn(String message) {
-        log.warn(message);
-    }
+  public static void debug(String message) {
+    log.debug(message);
+  }
 
-    public static void error(String message) {
-        log.error(message);
-    }
+  // This is to print log for the beginning of the test case, as we usually run so many test cases as a test suite
+  public static void startTestCase(String sTestCaseName) {
 
-    public static void fatal(String message) {
-        log.fatal(message);
-    }
+    log.info(
+        "\n****************************************************************************************");
 
-    public static void debug(String message) {
-        log.debug(message);
-    }
+    log.info(
+        "****************************************************************************************");
 
+    log.info(
+        "$$$$$$$$$$$$$$$$$$$$$                 "
+            + sTestCaseName
+            + "       $$$$$$$$$$$$$$$$$$$$$$$$$");
 
-    // This is to print log for the beginning of the test case, as we usually run so many test cases as a test suite
-    public static void startTestCase(String sTestCaseName){
+    log.info(
+        "****************************************************************************************");
 
-        log.info("\n****************************************************************************************");
+    log.info(
+        "****************************************************************************************");
+  }
 
-        log.info("****************************************************************************************");
+  //This is to print log for the ending of the test case
 
-        log.info("$$$$$$$$$$$$$$$$$$$$$                 "+sTestCaseName+ "       $$$$$$$$$$$$$$$$$$$$$$$$$");
+  public static void endTestCase(String sTestCaseName) {
 
-        log.info("****************************************************************************************");
+    log.info(
+        "XXXXXXXXXXXXXXXXXXXXXXX             "
+            + "-E---N---D-"
+            + "             XXXXXXXXXXXXXXXXXXXXXX");
 
-        log.info("****************************************************************************************");
+    log.info("X");
 
-    }
+    log.info("X");
 
-    //This is to print log for the ending of the test case
+    log.info("X\n");
+  }
 
-    public static void endTestCase(String sTestCaseName){
+  /**
+   * Class TestListenerAdapter Implemented methods:
+   * onFinish,onStart,onTestFailedButWithinSuccessPercentage,onTestFailure,onTestSkipped,onTestStart,onTestSuccess
+   * UnImplmented
+   * methods:beforeConfiguration,getAllTestMethods,getConfigurationFailures,getConfigurationSkips,getFailedButWithinSuccessPercentageTests
+   * getFailedTests,getPassedTests,getSkippedTests,getTestContexts,onConfigurationFailure,onConfigurationSkip,onConfigurationSuccess,setAllTestMethods
+   * setFailedButWithinSuccessPercentageTests, setFailedTests,setPassedTests,setSkippedTests
+   *
+   * <p>Interface ITestResult Implemented:getMethod(),getTestClass(),getThrowable(),getName()
+   * Unimplemented:getStatus(),getStartMillis(),getEndMillis(),isSuccess(),getHost(),getInstance(),getTestName(),
+   * getInstanceName(),getTestContext()
+   */
+  @Override
+  public void onStart(ITestContext context) {
+    log.info(context.getName() + "--Test start\n");
+  }
 
-        log.info("XXXXXXXXXXXXXXXXXXXXXXX             "+"-E---N---D-"+"             XXXXXXXXXXXXXXXXXXXXXX");
+  @Override
+  public void onTestStart(ITestResult result) {
 
-        log.info("X");
+    log.info(result.getTestClass() + ":" + result.getName() + "--Test Started->");
+  }
 
-        log.info("X");
+  @Override
+  public void onTestSuccess(ITestResult result) {
 
-        log.info("X\n");
+    log.info("Test '" + result.getName() + "'  PASSED  ");
 
+    // This will print the class name in which the method is present
+    //log.info(""+result.getTestClass());
 
-    }
+    // This will print the priority of the method.
+    // If the priority is not defined it will print the default priority as
+    // 'o'
 
+    log.info("Priority of this method is " + result.getMethod().getPriority() + "\n\n");
 
-    /**
-     * Class TestListenerAdapter
-     * Implemented methods:	onFinish,onStart,onTestFailedButWithinSuccessPercentage,onTestFailure,onTestSkipped,onTestStart,onTestSuccess
-     * UnImplmented methods:beforeConfiguration,getAllTestMethods,getConfigurationFailures,getConfigurationSkips,getFailedButWithinSuccessPercentageTests
-     * getFailedTests,getPassedTests,getSkippedTests,getTestContexts,onConfigurationFailure,onConfigurationSkip,onConfigurationSuccess,setAllTestMethods
-     * setFailedButWithinSuccessPercentageTests, setFailedTests,setPassedTests,setSkippedTests
-     *
-     * Interface ITestResult
-     * Implemented:getMethod(),getTestClass(),getThrowable(),getName()
-     * Unimplemented:getStatus(),getStartMillis(),getEndMillis(),isSuccess(),getHost(),getInstance(),getTestName(),
-     * getInstanceName(),getTestContext()
-     */
+    log.info("Priority of this method is " + result.getMethod().getPriority());
+    log.info("### ### ### ### ### ### ### ### ### ### ### ### ###\n");
+  }
 
-    @Override
-    public void onStart(ITestContext context) {
-        log.info(context.getName()+ "--Test start\n");
-    }
+  @Override
+  public void onFinish(ITestContext context) {
+    log.info(context.getName() + "--Test Finish->\n\n");
+  }
 
-    @Override
-    public void onTestStart(ITestResult result) {
+  @Override
+  public void onTestSkipped(ITestResult result) {
+    log.error(result.getName() + "--Test Skipped");
+    log.warn("Test '" + result.getName() + "' SKIPPED\n");
+    System.out.println(".....");
+  }
 
-        log.info(result.getTestClass()+":"+result.getName()+ "--Test Started->");
-    }
+  @Override
+  public void onTestFailure(ITestResult result) {
 
-    @Override
-    public void onTestSuccess(ITestResult result) {
+    log.error("Test '" + result.getName() + "' FAILED");
+    log.error(Reporter.getCurrentTestResult());
+    log.error(result.getThrowable());
 
-        log.info("Test '" + result.getName() + "'  PASSED  ");
+    log.error("Priority of this method is " + result.getMethod().getPriority() + "\n\n");
 
-        // This will print the class name in which the method is present
-        //log.info(""+result.getTestClass());
+    log.error("Priority of this method is " + result.getMethod().getPriority());
+    log.info("###### ###### ###### ###### ###### ######\n");
+  }
 
-        // This will print the priority of the method.
-        // If the priority is not defined it will print the default priority as
-        // 'o'
-
-        log.info("Priority of this method is " + result.getMethod().getPriority()+"\n\n");
-
-        log.info("Priority of this method is " + result.getMethod().getPriority());
-        log.info("### ### ### ### ### ### ### ### ### ### ### ### ###\n");
-
-
-    }
-
-    @Override
-    public void onFinish(ITestContext context) {
-        log.info(context.getName()+ "--Test Finish->\n\n");
-    }
-
-    @Override
-    public void onTestSkipped(ITestResult result) {
-        log.error(result.getName() + "--Test Skipped");
-        log.warn("Test '" + result.getName() + "' SKIPPED\n");
-        System.out.println(".....");
-    }
-
-    @Override
-    public void onTestFailure(ITestResult result) {
-
-        log.error("Test '" + result.getName() + "' FAILED");
-        log.error(Reporter.getCurrentTestResult());
-        log.error(result.getThrowable());
-
-        log.error("Priority of this method is " + result.getMethod().getPriority() + "\n\n");
-
-        log.error("Priority of this method is " + result.getMethod().getPriority());
-        log.info("###### ###### ###### ###### ###### ######\n");
-
-
-
-    }
-
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        log.error(result.getName() + "--Test Failed with success percentage");
-        log.error("Priority of this method is " + result.getMethod().getPriority() + "\n");
-    }
-
-
+  @Override
+  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    log.error(result.getName() + "--Test Failed with success percentage");
+    log.error("Priority of this method is " + result.getMethod().getPriority() + "\n");
+  }
 }
